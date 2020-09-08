@@ -1,1 +1,6 @@
-Software de gerenciamento de estoque. CRUD utilizando arquivos
+Software de gerenciamento de estoque. 
+
+CRUD utilizando arquivos;
+
+O software deverá ser capaz de realizar o cadastro de um produto e suas respectivas categorias. As principais funcionalidades são criação de produto, listagem de produto, edição de produto e deletar um produto, essas funcionalidades também se aplicam às categorias. 
+
