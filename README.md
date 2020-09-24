@@ -8,6 +8,6 @@
 <ul> 
     <span>Alunos: </span>
     <li>Matheus Melo da Costa - 201801525</li>
-    <li>Matheus Vinicius Dias Ribeiro - 201703766</li>
+    <li>Daniel Lopes Silva - 201807800</li>
 </ul>
 
