@@ -62,7 +62,7 @@ bool cadastrarCategoria(LISTA *l, REGISTRO_CATEGORIA reg, int i); // COMPLETO
 bool deletarProduto();
 bool deletarCategoria();
 bool listarTodosOsProdutos(); // COMPLETO
-bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto);
+bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto); // COMPLETO
 void listarCategorias(LISTA *l); // COMPLETO
 bool atualizarProduto();
 void operacoesDeUsuario();
