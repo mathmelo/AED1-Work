@@ -90,6 +90,7 @@ int main() {
 	bool a = true;
 	int confereOpcao = 0;
 	int idTemporarioCategoria, idTemporarioProduto;
+	int cat;
 	
 	inicializarLista(&l);
 	LIMPA_TERMINAL;
@@ -185,7 +186,21 @@ int main() {
 
 		if(confereOpcao == 3) deletarProduto();	
 				
-		if(confereOpcao == 4) deletarCategoria();
+		if(confereOpcao == 4) { //DELETAR UMA CATEGORIA
+
+			while(true) {
+				LIMPA_TERMINAL;
+				printaTitulo();
+				
+				printf("Digite o id da categoria a ser apagada: ");
+				scanf("%d",&cat);
+				deletarCategoria(&l , cat);
+				
+				if(!(voltarRepetir())) break;
+				
+			}
+			LIMPA_TERMINAL;
+		}
 
 		// LISTAR TODOS OS PRODUTOS
 		if(confereOpcao == 5) {
@@ -399,8 +414,35 @@ bool deletarProduto() {
 	return true;
 }
 
-bool deletarCategoria() {
-	return true;
+bool deletarCategoria(LISTA *l, int i) {
+	
+	int j;
+	bool aux = false;
+
+	if(i<=0) return false;
+
+	for(j=0; j<l->tamanhoListaCategoria; j++) {
+		if(l->registroCategoria[j].chaveCategoria == i)
+		{
+			aux = true;
+			break;
+		}
+	}
+	if(aux==true) {
+
+		for (j = i-1; j < l->tamanhoListaCategoria; j++) {
+		
+		l->registroCategoria[j] = l->registroCategoria[j+1];
+		}
+	
+		l->tamanhoListaCategoria--;
+		printf("\nCategoria excluida com sucesso!\n");
+		return true;
+	}
+	else {
+		return false;
+	}
+	
 }
 
 bool listarTodosOsProdutos(LISTA *l) {
@@ -478,6 +520,7 @@ void listarCategorias(LISTA *l) {
 }
 
 bool atualizarProduto() {
+	
 	return true;
 }
 
