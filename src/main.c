@@ -60,7 +60,7 @@ int tamanho(LISTA* l); // COMPLETO
 bool cadastrarProduto(LISTA *l, int idCategoria, REGISTRO_PRODUTO reg); // COMPLETO
 bool cadastrarCategoria(LISTA *l, REGISTRO_CATEGORIA reg, int i); // COMPLETO
 bool deletarProduto();
-bool deletarCategoria();
+bool deletarCategoria(LISTA *l, int i);
 bool listarTodosOsProdutos(); // COMPLETO
 bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto); // COMPLETO
 void listarCategorias(LISTA *l); // COMPLETO
@@ -184,20 +184,34 @@ int main() {
 			LIMPA_TERMINAL;
 		}
 
-		if(confereOpcao == 3) deletarProduto();	
+		if(confereOpcao == 3) {
+			
+			while(true) {
+				LIMPA_TERMINAL;
+				printaTitulo();
 				
-		if(confereOpcao == 4) { //DELETAR UMA CATEGORIA
+				printf("Digite o id do produto a ser apagado: ");
+				scanf("%d", &cat);
+				deletarProduto(&l,cat);
+				
+				if(!(voltarRepetir())) break;	
+			}
+			LIMPA_TERMINAL;
 
+
+		} 	
+				
+		// DELETAR UMA CATEGORIA
+		if(confereOpcao == 4) { 
 			while(true) {
 				LIMPA_TERMINAL;
 				printaTitulo();
 				
 				printf("Digite o id da categoria a ser apagada: ");
-				scanf("%d",&cat);
+				scanf("%d", &cat);
 				deletarCategoria(&l , cat);
 				
-				if(!(voltarRepetir())) break;
-				
+				if(!(voltarRepetir())) break;	
 			}
 			LIMPA_TERMINAL;
 		}
@@ -410,16 +424,44 @@ bool cadastrarCategoria(LISTA *l, REGISTRO_CATEGORIA reg, int i){
 	return true;
 }
 
-bool deletarProduto() {
-	return true;
+bool deletarProduto(LISTA *l, int i) {
+
+	int count, countAux, j;
+	bool temp;
+
+	temp=false;
+
+	for(count = 0; count < l->tamanhoListaCategoria; count++) {
+
+		for(countAux=0; countAux<l->registroCategoria[count].tamanhoListaProduto; countAux++) {
+
+			if(l->registroCategoria[count].registroProduto[countAux].chaveProduto == i) {
+				temp = true;
+				break;
+			}
+		}
+		if(temp==true) break;
+    }
+	if(temp==true) {
+
+
+		for(j = countAux; j < l->registroCategoria[count].tamanhoListaProduto-1; j++) {
+
+			l->registroCategoria[count].registroProduto[j] = l->registroCategoria[count].registroProduto[j+1];
+		}
+		l->registroCategoria[count].tamanhoListaProduto--;
+		printf("Produto excluido com sucesso!\n");
+		return true;
+    }
+	printf("Produto inexistente\n");
+	return false;
 }
 
 bool deletarCategoria(LISTA *l, int i) {
-	
-	int j;
+	int j, count;
 	bool aux = false;
 
-	if(i<=0) return false;
+	if(i<=0 || l->tamanhoListaCategoria == 0) return false;
 
 	for(j=0; j<l->tamanhoListaCategoria; j++) {
 		if(l->registroCategoria[j].chaveCategoria == i)
@@ -428,18 +470,28 @@ bool deletarCategoria(LISTA *l, int i) {
 			break;
 		}
 	}
-	if(aux==true) {
 
-		for (j = i-1; j < l->tamanhoListaCategoria; j++) {
+	if(aux==true) {
 		
-		l->registroCategoria[j] = l->registroCategoria[j+1];
+		for(count = 0; count < l->registroCategoria[j].tamanhoListaProduto; count++) {
+
+            l->registroCategoria[j].registroProduto[i].nomeProduto[0] = '\0';
+        }
+
+		l->registroCategoria[j].tamanhoListaProduto = 0;
+		l->registroCategoria[j].nomeCategoria[0] = '\0';
+
+		for (count = j; count < l->tamanhoListaCategoria-1; count++) {
+		
+			l->registroCategoria[count] = l->registroCategoria[count+1];
 		}
-	
+
 		l->tamanhoListaCategoria--;
 		printf("\nCategoria excluida com sucesso!\n");
 		return true;
 	}
 	else {
+		printf("Id nao encontrado!\n");
 		return false;
 	}
 	
@@ -463,7 +515,7 @@ bool listarTodosOsProdutos(LISTA *l) {
 			tamProdutos = l->registroCategoria[i].tamanhoListaProduto;
 			if(tamProdutos == 0) {
 				printf("%s - ID: %d\n", l->registroCategoria[i].nomeCategoria, l->registroCategoria[i].chaveCategoria);
-				printf("Nao foram cadastrados produtos nessa categoria.\n\n");
+				printf("   Nao foram cadastrados produtos nessa categoria.\n\n");
 			} else {
 				printf("%s - ID: %d\n", l->registroCategoria[i].nomeCategoria, l->registroCategoria[i].chaveCategoria);
 				for(j = 0; j < tamProdutos; j++) {
@@ -520,15 +572,13 @@ void listarCategorias(LISTA *l) {
 }
 
 bool atualizarProduto() {
-	
+	 
 	return true;
 }
 
 void operacoesDeUsuario() {
 	
 }
-
-
 
 // --- Sair ---
 void sair() {
