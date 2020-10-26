@@ -59,7 +59,7 @@ void inicializarLista(LISTA* l); // COMPLETO
 int tamanho(LISTA* l); // COMPLETO
 bool cadastrarProduto(LISTA *l, int idCategoria, REGISTRO_PRODUTO reg); // COMPLETO
 bool cadastrarCategoria(LISTA *l, REGISTRO_CATEGORIA reg, int i); // COMPLETO
-bool deletarProduto();
+bool deletarProduto(LISTA *l, int i);
 bool deletarCategoria(LISTA *l, int i);
 bool listarTodosOsProdutos(); // COMPLETO
 bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto); // COMPLETO
