@@ -267,8 +267,6 @@ int main() {
 				}
 			}
 		} 
-				
-		if(confereOpcao == 9) operacoesDeUsuario();
 			
 		// SAIR E ENCERRAR O PROGRAMA	
 		if(confereOpcao == 10) sair();	
@@ -296,7 +294,6 @@ void printaMenuPrincipal() {
 	printf(" 6 - Listar produto (especifico)\n");
 	printf(" 7 - Listar categoria\n");
 	printf(" 8 - Atualizar produto\n");
-	printf(" 9 - Operacoes de usuario\n");
 	printf("10 - Sair\n");
 }
 
@@ -312,7 +309,7 @@ int leMenuPrincipal() {
 		printf("\nDigite um valor: ");
 		scanf("%d", &a);
 		
-		if(a < 1 || a > 10) {
+		if(a < 1 || a > 10 || a == 9) {
 			printf("Opcao invalida!\n");
 		} else confere = false;
 	}
