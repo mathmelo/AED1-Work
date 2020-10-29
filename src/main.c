@@ -59,13 +59,12 @@ void inicializarLista(LISTA* l); // COMPLETO
 int tamanho(LISTA* l); // COMPLETO
 bool cadastrarProduto(LISTA *l, int idCategoria, REGISTRO_PRODUTO reg); // COMPLETO
 bool cadastrarCategoria(LISTA *l, REGISTRO_CATEGORIA reg, int i); // COMPLETO
-bool deletarProduto(LISTA *l, int i);
-bool deletarCategoria(LISTA *l, int i);
+bool deletarProduto(LISTA *l, int i); //COMPLETO
+bool deletarCategoria(LISTA *l, int i); //COMPLETO
 bool listarTodosOsProdutos(); // COMPLETO
 bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto); // COMPLETO
 void listarCategorias(LISTA *l); // COMPLETO
-bool atualizarProduto();
-void operacoesDeUsuario();
+bool atualizarProduto(LISTA *l, int op, int idProduto); // COMPLETO
 int confereIdProduto(LISTA *l);
 
 // --- Funcoes de projecoes na tela ---
@@ -90,7 +89,7 @@ int main() {
 	bool a = true;
 	int confereOpcao = 0;
 	int idTemporarioCategoria, idTemporarioProduto;
-	int cat;
+	int cat, op;
 	
 	inicializarLista(&l);
 	LIMPA_TERMINAL;
@@ -247,7 +246,27 @@ int main() {
 		// LISTAR TODAS AS CATEGORIAS	
 		if(confereOpcao == 7) listarCategorias(&l);
 
-		if(confereOpcao == 8) atualizarProduto();
+		if(confereOpcao == 8) {
+			
+			while(true) {
+				LIMPA_TERMINAL;
+				printaTitulo();
+				printf("ATUALIZACAO DE PRODUTOS\n\n");
+				printf("Informe o id do produto a ser atualizado: ");
+				scanf("%d",&idTemporarioProduto);
+				LIMPA_TERMINAL;
+				printf("OPERACOES:\n");
+				printf("\n1 - Atualizar nome do produto\n2 - Atualizar valor do produto\n3 - Atualizar quantidade do produto");
+				printf("\n\nDigite uma opcao: ");
+				scanf("%d", &op);
+				LIMPA_TERMINAL;
+				atualizarProduto(&l, op, idTemporarioProduto);
+				if(!(voltarRepetir())) {
+					LIMPA_TERMINAL;
+					break;
+				}
+			}
+		} 
 				
 		if(confereOpcao == 9) operacoesDeUsuario();
 			
@@ -571,13 +590,86 @@ void listarCategorias(LISTA *l) {
 	}
 }
 
-bool atualizarProduto() {
+bool atualizarProduto(LISTA *l, int op, int idProduto) {
+
+	int i, j, auxTemp;
+	float valorTemp;
+	char novoNomeProduto[MAX_NOME];
+	bool aux;
+
+	if (l->tamanhoListaCategoria == 0) {
+
+		printf("\nNao existem categorias e nem produtos cadastrados!\n");
+		printf("--------------------------------\n");
+		return false;
+	}
+
+	for (aux = false, i = 0; i < l->tamanhoListaCategoria; i++) {
+			for (j = 0; j < l->registroCategoria[i].tamanhoListaProduto; j++) {
+				if (l->registroCategoria[i].registroProduto[j].chaveProduto == idProduto) {
+					aux = true;
+					break;
+				}
+			}
+			if (aux == true) break;
+		}
+
+	if (op == 1) { //ALTERAR NOME DO PRODUTO
+
+		if (aux == false) {
+			printf("Produto nao encontrado!\n\n");	
+			return false;
+		}
+		else {
+			l->registroCategoria[i].registroProduto[j].nomeProduto[0] = '\0';
+			printf("Digite o novo nome do produto: ");
+			getchar();
+
+			scanf("%[^\n]s", novoNomeProduto);
+			strcpy(l->registroCategoria[i].registroProduto[j].nomeProduto, novoNomeProduto);
+
+			printf("\nNome alterado com sucesso!\n");
+			printf("Nome: %s, id: %d\n", l->registroCategoria[i].registroProduto[j].nomeProduto, l->registroCategoria[i].registroProduto[j].chaveProduto);
+			printf("Valor: %.2f, Quantidade: %d\n\n", l->registroCategoria[i].registroProduto[j].valor, l->registroCategoria[i].registroProduto[j].quantidade);	
+			printf("------------------------------\n");
+			return true;
+		}
+	}
+
+	if (op == 2) { //ALTERAR VALOR DO PRODUTO
+
+		printf("Digite um novo valor para o produto: ");
+		scanf("%f", &valorTemp);
+
+		l->registroCategoria[i].registroProduto[j].valor = valorTemp;
+
+		printf("\nValor alterado com sucesso!\n");
+		printf("Nome: %s, id: %d\n", l->registroCategoria[i].registroProduto[j].nomeProduto, l->registroCategoria[i].registroProduto[j].chaveProduto);
+		printf("Valor: %.2f, Quantidade: %d\n\n", l->registroCategoria[i].registroProduto[j].valor, l->registroCategoria[i].registroProduto[j].quantidade);	
+		printf("------------------------------\n");
+
+		return true;
+	}
+
+	if (op == 3) { //ALTERAR QUANTIDADE DO PRODUTO
+
+		printf("Digite uma nova quantidade para esse produto: ");
+		scanf("%d",&auxTemp);
+
+		l->registroCategoria[i].registroProduto[j].quantidade = auxTemp;
+
+		printf("\nValor alterado com sucesso!\n");
+		printf("Nome: %s, id: %d\n", l->registroCategoria[i].registroProduto[j].nomeProduto, l->registroCategoria[i].registroProduto[j].chaveProduto);
+		printf("Valor: %.2f, Quantidade: %d\n\n", l->registroCategoria[i].registroProduto[j].valor, l->registroCategoria[i].registroProduto[j].quantidade);	
+		printf("------------------------------\n");
+	 	return true;
+	}
+	else {
+		printf("\nOperacao invalida! Informe uma opcao existente.\n");
+		return false;
+	}
 	 
 	return true;
-}
-
-void operacoesDeUsuario() {
-	
 }
 
 // --- Sair ---
