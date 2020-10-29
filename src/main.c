@@ -65,7 +65,7 @@ bool listarTodosOsProdutos(); // COMPLETO
 bool listarProdutoEspecifico(LISTA *l, TIPOCHAVE idProduto); // COMPLETO
 void listarCategorias(LISTA *l); // COMPLETO
 bool atualizarProduto(LISTA *l, int op, int idProduto); // COMPLETO
-int confereIdProduto(LISTA *l);
+int confereIdProduto(LISTA *l); //COMPLETO
 
 // --- Funcoes de projecoes na tela ---
 void printaTitulo(); // COMPLETO
